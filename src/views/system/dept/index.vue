@@ -218,7 +218,7 @@ function handleAdd(row) {
     form.value.parentId = row.deptId;
   }
   open.value = true;
-  title.value = "添加部门";
+  title.value = "部署追加";
 }
 /** 展开/折叠操作 */
 function toggleExpandAll() {
