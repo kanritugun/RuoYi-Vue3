@@ -6,7 +6,7 @@
             <div class="head-container">
                <el-input
                   v-model="deptName"
-                  placeholder="请输入部门名称"
+                  placeholder="部署名を入力してください"
                   clearable
                   prefix-icon="Search"
                   style="margin-bottom: 20px"
@@ -28,53 +28,28 @@
          </el-col>
          <!--用户数据-->
          <el-col :span="20" :xs="24">
-            <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-               <el-form-item label="用户名称" prop="userName">
+            <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="100px">
+               <el-form-item label="ユーザーID" prop="userName">
                   <el-input
                      v-model="queryParams.userName"
-                     placeholder="请输入用户名称"
+                     placeholder="ユーザーIDを入力してください"
                      clearable
-                     style="width: 240px"
+                     style="width: 200px"
                      @keyup.enter="handleQuery"
                   />
                </el-form-item>
-               <el-form-item label="手机号码" prop="phonenumber">
-                  <el-input
-                     v-model="queryParams.phonenumber"
-                     placeholder="请输入手机号码"
-                     clearable
-                     style="width: 240px"
-                     @keyup.enter="handleQuery"
-                  />
-               </el-form-item>
-               <el-form-item label="状态" prop="status">
-                  <el-select
-                     v-model="queryParams.status"
-                     placeholder="用户状态"
-                     clearable
-                     style="width: 240px"
-                  >
-                     <el-option
-                        v-for="dict in sys_normal_disable"
-                        :key="dict.value"
-                        :label="dict.label"
-                        :value="dict.value"
-                     />
-                  </el-select>
-               </el-form-item>
-               <el-form-item label="创建时间" style="width: 308px;">
-                  <el-date-picker
-                     v-model="dateRange"
-                     value-format="YYYY-MM-DD"
-                     type="daterange"
-                     range-separator="-"
-                     start-placeholder="开始日期"
-                     end-placeholder="结束日期"
-                  ></el-date-picker>
-               </el-form-item>
+              <el-form-item label="社員名" prop="nickName">
+                <el-input
+                    v-model="queryParams.nickName"
+                    placeholder="社員名を入力してください"
+                    clearable
+                    style="width: 200px"
+                    @keyup.enter="handleQuery"
+                />
+              </el-form-item>
                <el-form-item>
-                  <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-                  <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+                  <el-button type="primary" icon="Search" @click="handleQuery">検索</el-button>
+                  <el-button icon="Refresh" @click="resetQuery">クリア</el-button>
                </el-form-item>
             </el-form>
 
@@ -131,12 +106,13 @@
 
             <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
                <el-table-column type="selection" width="50" align="center" />
-               <el-table-column label="用户编号" align="center" key="userId" prop="userId" v-if="columns[0].visible" />
-               <el-table-column label="用户名称" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
-               <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
-               <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
-               <el-table-column label="手机号码" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
-               <el-table-column label="状态" align="center" key="status" v-if="columns[5].visible">
+               <el-table-column label="社員番号" align="center" key="userId" prop="userId" v-if="columns[0].visible" />
+               <el-table-column label="ユーザーID" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
+               <el-table-column label="社員名" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
+               <el-table-column label="部署" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
+               <el-table-column label="電話番号" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
+              <el-table-column label="カードID" align="center" key="cartId" prop="cartId" v-if="columns[5].visible" width="120" />
+               <el-table-column label="状態" align="center" key="status" v-if="columns[6].visible">
                   <template #default="scope">
                      <el-switch
                         v-model="scope.row.status"
@@ -146,7 +122,7 @@
                      ></el-switch>
                   </template>
                </el-table-column>
-               <el-table-column label="创建时间" align="center" prop="createTime" v-if="columns[6].visible" width="160">
+               <el-table-column label="作成日時" align="center" prop="createTime" v-if="columns[7].visible" width="160">
                   <template #default="scope">
                      <span>{{ parseTime(scope.row.createTime) }}</span>
                   </template>
@@ -332,6 +308,7 @@
 <script setup name="User">
 import { getToken } from "@/utils/auth";
 import { changeUserStatus, listUser, resetUserPwd, delUser, getUser, updateUser, addUser, deptTreeSelect } from "@/api/system/user";
+import {ref} from "vue";
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
@@ -369,13 +346,14 @@ const upload = reactive({
 });
 // 列显隐信息
 const columns = ref([
-  { key: 0, label: `用户编号`, visible: true },
-  { key: 1, label: `用户名称`, visible: true },
-  { key: 2, label: `用户昵称`, visible: true },
-  { key: 3, label: `部门`, visible: true },
-  { key: 4, label: `手机号码`, visible: true },
-  { key: 5, label: `状态`, visible: true },
-  { key: 6, label: `创建时间`, visible: true }
+  { key: 0, label: `社員番号`, visible: true },
+  { key: 1, label: `ログインID`, visible: true },
+  { key: 2, label: `社員名`, visible: true },
+  { key: 3, label: `部署`, visible: true },
+  { key: 4, label: `電話番号`, visible: true },
+  { key: 5, label: `カードID`, visible: true },
+  { key: 6, label: `状態`, visible: true },
+  { key: 7, label: `作成日時`, visible: false }
 ]);
 
 const data = reactive({

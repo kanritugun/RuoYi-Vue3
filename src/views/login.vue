@@ -69,6 +69,7 @@ import { getCodeImg } from "@/api/login";
 import Cookies from "js-cookie";
 import { encrypt, decrypt } from "@/utils/jsencrypt";
 import useUserStore from '@/store/modules/user'
+import {ref} from "vue";
 
 const userStore = useUserStore()
 const route = useRoute();
@@ -94,7 +95,7 @@ const loading = ref(false);
 // 验证码开关
 const captchaEnabled = ref(false);
 // 注册开关
-const register = ref(true);
+const register = ref(false);
 const redirect = ref(undefined);
 
 watch(route, (newRoute) => {
