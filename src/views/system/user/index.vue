@@ -34,7 +34,7 @@
                      v-model="queryParams.userName"
                      placeholder="ユーザーIDを入力してください"
                      clearable
-                     style="width: 200px"
+                     style="width: 220px"
                      @keyup.enter="handleQuery"
                   />
                </el-form-item>
@@ -61,7 +61,7 @@
                      icon="Plus"
                      @click="handleAdd"
                      v-hasPermi="['system:user:add']"
-                  >新增</el-button>
+                  >新規</el-button>
                </el-col>
                <el-col :span="1.5">
                   <el-button
@@ -71,7 +71,7 @@
                      :disabled="single"
                      @click="handleUpdate"
                      v-hasPermi="['system:user:edit']"
-                  >修改</el-button>
+                  >修正</el-button>
                </el-col>
                <el-col :span="1.5">
                   <el-button
@@ -81,7 +81,7 @@
                      :disabled="multiple"
                      @click="handleDelete"
                      v-hasPermi="['system:user:remove']"
-                  >删除</el-button>
+                  >削除</el-button>
                </el-col>
                <el-col :span="1.5">
                   <el-button
@@ -90,7 +90,7 @@
                      icon="Upload"
                      @click="handleImport"
                      v-hasPermi="['system:user:import']"
-                  >导入</el-button>
+                  >インポート</el-button>
                </el-col>
                <el-col :span="1.5">
                   <el-button
@@ -99,7 +99,7 @@
                      icon="Download"
                      @click="handleExport"
                      v-hasPermi="['system:user:export']"
-                  >导出</el-button>
+                  >エクスポート</el-button>
                </el-col>
                <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
             </el-row>
@@ -135,10 +135,10 @@
                      <el-tooltip content="删除" placement="top" v-if="scope.row.userId !== 1">
                         <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:user:remove']"></el-button>
                      </el-tooltip>
-                     <el-tooltip content="重置密码" placement="top" v-if="scope.row.userId !== 1">
+                     <el-tooltip content="パスワード初期化" placement="top" v-if="scope.row.userId !== 1">
                          <el-button link type="primary" icon="Key" @click="handleResetPwd(scope.row)" v-hasPermi="['system:user:resetPwd']"></el-button>
                      </el-tooltip>
-                     <el-tooltip content="分配角色" placement="top" v-if="scope.row.userId !== 1">
+                     <el-tooltip content="役割分配" placement="top" v-if="scope.row.userId !== 1">
                         <el-button link type="primary" icon="CircleCheck" @click="handleAuthRole(scope.row)" v-hasPermi="['system:user:edit']"></el-button>
                      </el-tooltip>
                   </template>
@@ -159,18 +159,18 @@
          <el-form :model="form" :rules="rules" ref="userRef" label-width="80px">
             <el-row>
                <el-col :span="12">
-                  <el-form-item label="用户昵称" prop="nickName">
-                     <el-input v-model="form.nickName" placeholder="请输入用户昵称" maxlength="30" />
+                  <el-form-item label="社員名" prop="nickName">
+                     <el-input v-model="form.nickName" placeholder="社員名を入力してください" maxlength="30" />
                   </el-form-item>
                </el-col>
                <el-col :span="12">
-                  <el-form-item label="归属部门" prop="deptId">
+                  <el-form-item label="部署" prop="deptId">
                      <el-tree-select
                         v-model="form.deptId"
                         :data="deptOptions"
                         :props="{ value: 'id', label: 'label', children: 'children' }"
                         value-key="id"
-                        placeholder="请选择归属部门"
+                        placeholder="部署選択"
                         check-strictly
                      />
                   </el-form-item>
@@ -178,32 +178,32 @@
             </el-row>
             <el-row>
                <el-col :span="12">
-                  <el-form-item label="手机号码" prop="phonenumber">
-                     <el-input v-model="form.phonenumber" placeholder="请输入手机号码" maxlength="11" />
+                  <el-form-item label="電話番号" prop="phonenumber">
+                     <el-input v-model="form.phonenumber" placeholder="電話番号を選択してください" maxlength="11" />
                   </el-form-item>
                </el-col>
                <el-col :span="12">
-                  <el-form-item label="邮箱" prop="email">
-                     <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
-                  </el-form-item>
-               </el-col>
-            </el-row>
-            <el-row>
-               <el-col :span="12">
-                  <el-form-item v-if="form.userId == undefined" label="用户名称" prop="userName">
-                     <el-input v-model="form.userName" placeholder="请输入用户名称" maxlength="30" />
-                  </el-form-item>
-               </el-col>
-               <el-col :span="12">
-                  <el-form-item v-if="form.userId == undefined" label="用户密码" prop="password">
-                     <el-input v-model="form.password" placeholder="请输入用户密码" type="password" maxlength="20" show-password />
+                  <el-form-item label="メール" prop="email">
+                     <el-input v-model="form.email" placeholder="メールを選択してください" maxlength="50" />
                   </el-form-item>
                </el-col>
             </el-row>
             <el-row>
                <el-col :span="12">
-                  <el-form-item label="用户性别">
-                     <el-select v-model="form.sex" placeholder="请选择">
+                  <el-form-item v-if="form.userId == undefined" label="ユーザーID" prop="userName">
+                     <el-input v-model="form.userName" placeholder="ユーザーIDを選択してください" maxlength="30" />
+                  </el-form-item>
+               </el-col>
+               <el-col :span="12">
+                  <el-form-item v-if="form.userId == undefined" label="パスワード" prop="password">
+                     <el-input v-model="form.password" placeholder="パスワードを選択してください" type="password" maxlength="20" show-password />
+                  </el-form-item>
+               </el-col>
+            </el-row>
+            <el-row>
+               <el-col :span="12">
+                  <el-form-item label="性别">
+                     <el-select v-model="form.sex" placeholder="性别選択">
                         <el-option
                            v-for="dict in sys_user_sex"
                            :key="dict.value"
@@ -227,8 +227,8 @@
             </el-row>
             <el-row>
                <el-col :span="12">
-                  <el-form-item label="岗位">
-                     <el-select v-model="form.postIds" multiple placeholder="请选择">
+                  <el-form-item label="職位">
+                     <el-select v-model="form.postIds" multiple placeholder="職位選択">
                         <el-option
                            v-for="item in postOptions"
                            :key="item.postId"
@@ -466,15 +466,15 @@ function handleAuthRole(row) {
 };
 /** 重置密码按钮操作 */
 function handleResetPwd(row) {
-  proxy.$prompt('请输入"' + row.userName + '"的新密码', "提示", {
-    confirmButtonText: "确定",
+  proxy.$prompt(row.userName + 'の新しいパスワードを入力してください', "初期設定", {
+    confirmButtonText: "確定",
     cancelButtonText: "取消",
     closeOnClickModal: false,
     inputPattern: /^.{5,20}$/,
-    inputErrorMessage: "用户密码长度必须介于 5 和 20 之间",
+    inputErrorMessage: "5文字以上20文字以下でご入力ください",
   }).then(({ value }) => {
     resetUserPwd(row.userId, value).then(response => {
-      proxy.$modal.msgSuccess("修改成功，新密码是：" + value);
+      proxy.$modal.msgSuccess("修改成功，新パスワード：" + value);
     });
   }).catch(() => {});
 };
@@ -503,7 +503,7 @@ const handleFileSuccess = (response, file, fileList) => {
   upload.open = false;
   upload.isUploading = false;
   proxy.$refs["uploadRef"].handleRemove(file);
-  proxy.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "导入结果", { dangerouslyUseHTMLString: true });
+  proxy.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "インポート结果", { dangerouslyUseHTMLString: true });
   getList();
 };
 /** 提交上传文件 */
@@ -540,7 +540,7 @@ function handleAdd() {
     postOptions.value = response.posts;
     roleOptions.value = response.roles;
     open.value = true;
-    title.value = "添加用户";
+    title.value = "ユーザー追加";
     form.value.password = initPassword.value;
   });
 };
@@ -555,7 +555,7 @@ function handleUpdate(row) {
     form.value.postIds = response.postIds;
     form.value.roleIds = response.roleIds;
     open.value = true;
-    title.value = "修改用户";
+    title.value = "ユーザー修改";
     form.password = "";
   });
 };
@@ -571,7 +571,7 @@ function submitForm() {
         });
       } else {
         addUser(form.value).then(response => {
-          proxy.$modal.msgSuccess("新增成功");
+          proxy.$modal.msgSuccess("追加成功");
           open.value = false;
           getList();
         });

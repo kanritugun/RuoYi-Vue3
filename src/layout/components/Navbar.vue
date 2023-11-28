@@ -83,9 +83,9 @@ function handleCommand(command) {
 }
 
 function logout() {
-  ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
+  ElMessageBox.confirm('ログアウトします。よろしいですか？', {
+    confirmButtonText: 'はい',
+    cancelButtonText: 'いいえ',
     type: 'warning'
   }).then(() => {
     userStore.logOut().then(() => {

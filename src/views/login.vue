@@ -40,7 +40,7 @@
           <img :src="codeUrl" @click="getCode" class="login-code-img"/>
         </div>
       </el-form-item>
-      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
+      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">パスワードを記憶する</el-checkbox>
       <el-form-item style="width:100%;">
         <el-button
           :loading="loading"
@@ -49,8 +49,8 @@
           style="width:100%;"
           @click.prevent="handleLogin"
         >
-          <span v-if="!loading">登 录</span>
-          <span v-else>登 录 中...</span>
+          <span v-if="!loading">ログイン</span>
+          <span v-else>ログイン中...</span>
         </el-button>
         <div style="float: right;" v-if="register">
           <router-link class="link-type" :to="'/register'">立即注册</router-link>
@@ -59,7 +59,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2023 ruoyi.vip All Rights Reserved.</span>
+      <span>COPYRIGHT ©NEWSUN CO., LTD. ALL RIGHTS RESERVED.</span>
     </div>
   </div>
 </template>
