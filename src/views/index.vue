@@ -51,9 +51,10 @@
 
 <script setup name="Top">
 import {listMessage } from "@/api/system/top";
-import {ref, toRefs} from "vue";
-import {parseTime} from "../utils/ruoyi";
+import {reactive, ref, toRefs} from "vue";
+import {parseTime} from "@/utils/ruoyi";
 
+// 获取当前组件实例
 const {proxy} = getCurrentInstance();
 
 const messageList = ref([]);

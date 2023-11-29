@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "フィルム管理システム",
   "author": "newsun",
+  "license": "UNLICENSED",
   "scripts": {
     "dev": "vite",
     "build:prod": "vite build",
