@@ -109,10 +109,10 @@
           <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
         </el-row>
 
-        <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
+        <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange" border>
           <el-table-column type="selection" width="50" align="center"/>
-          <el-table-column label="社員番号" align="center" key="userId" prop="userId" v-if="columns[0].visible"/>
-          <el-table-column label="ユーザーID" align="center" key="userName" prop="userName" v-if="columns[1].visible"
+          <el-table-column label="ID" align="center" key="userId" prop="userId" v-if="columns[0].visible"/>
+          <el-table-column label="社員ID" align="center" key="userName" prop="userName" v-if="columns[1].visible"
                            :show-overflow-tooltip="true"/>
           <el-table-column label="社員名" align="center" key="nickName" prop="nickName" v-if="columns[2].visible"
                            :show-overflow-tooltip="true"/>
@@ -379,8 +379,8 @@ const upload = reactive({
 });
 // 列显隐信息
 const columns = ref([
-  {key: 0, label: `社員番号`, visible: true},
-  {key: 1, label: `ログインID`, visible: true},
+  {key: 0, label: `ID`, visible: true},
+  {key: 1, label: `社員ID`, visible: true},
   {key: 2, label: `社員名`, visible: true},
   {key: 3, label: `部署`, visible: true},
   {key: 4, label: `電話番号`, visible: true},
