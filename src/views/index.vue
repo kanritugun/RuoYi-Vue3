@@ -14,7 +14,6 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">検索</el-button>
-<!--        <el-button icon="Refresh" @click="resetQuery">重置</el-button>-->
       </el-form-item>
     </el-form>
     <el-table v-loading="loading" :data="messageList">
@@ -32,13 +31,13 @@
     <pagination
         v-show="total>0"
         :total="total"
-        :page.sync="queryParams.pageNum"
-        :limit.sync="queryParams.pageSize"
+        v-model:page="queryParams.pageNum"
+        v-model:limit="queryParams.pageSize"
         @pagination="getList"
     />
 
     <!-- 添加或修改お知らせメッセージ对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" v-model:visible="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -50,7 +49,7 @@
 </template>
 
 <script setup name="Top">
-import {listMessage } from "@/api/system/top";
+import {listMessage} from "@/api/system/top";
 import {reactive, ref, toRefs} from "vue";
 import {parseTime} from "@/utils/ruoyi";
 
