@@ -28,12 +28,11 @@
       <el-table-column label="お知らせ" align="center" prop="oshiraseMessage"/>
     </el-table>
 
-    <pagination
-        v-show="total>0"
-        :total="total"
-        v-model:page="queryParams.pageNum"
-        v-model:limit="queryParams.pageSize"
-        @pagination="getList"
+    <pagination v-show="total>0"
+                :total="total"
+                v-model:page="queryParams.pageNum"
+                v-model:limit="queryParams.pageSize"
+                @pagination="getList"
     />
 
     <!-- 添加或修改お知らせメッセージ对话框 -->
